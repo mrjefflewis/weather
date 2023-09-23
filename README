@@ -1,65 +1,73 @@
 # Python Project README
 
-This repository contains a Python project that utilizes the Google Sheets API to work with a specific Google Sheets document. To set up and run the project, follow the steps outlined below:
+This repository contains a Python project that utilizes the Google Sheets API to work with a specific Google Sheets document. Follow the steps below to set up and run the project:
 
 ## Prerequisites
 
-1. **Python**: Ensure you have Python 3.x installed on your system. If not, download and install it from the [official Python website](https://www.python.org/downloads/).
+- **Python**: Ensure you have Python 3.x installed on your system. If not, download and install it from the [official Python website](https://www.python.org/downloads/).
 
 ## Setting Up the Project
 
-1. **Create a Virtual Environment**: It's recommended to create a virtual environment to manage dependencies for this project. Open a terminal and run the following command to create a new virtual environment named "venv":
-
-    ```bash
-    python -m venv venv
-    ```
-
-2. **Activate the Virtual Environment**: Activate the virtual environment:
-
-    - **On Windows**:
-    ```bash
-    venv\Scripts\activate
-    ```
-
-    - **On Unix or MacOS**:
-    ```bash
-    source venv/bin/activate
-    ```
-
-3. **Install Dependencies**: Install the project dependencies using pip and the provided `requirements.txt`:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Get Google Sheets API Key**:
+1. **Create a Virtual Environment**:
    
-   Obtain a Google Sheets API key by following the instructions provided by Google for the Google Sheets API. Save the API key as `service_account.json` and place it in the `~/.config/gspread/` directory.
+   Create a new virtual environment named "venv":
 
-## Configure the Project
+   ```bash
+   python -m venv venv
+   ```
+
+2. **Activate the Virtual Environment**:
+
+   - **On Windows**:
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - **On Unix or MacOS**:
+     ```bash
+     source venv/bin/activate
+     ```
+
+3. **Install Dependencies**:
+   
+   Install the project dependencies using pip and the provided `requirements.txt`:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Google Sheets API Key**:
+   
+   Obtain a Google Sheets API key. Save the API key as `service_account.json` and place it in `~/.config/gspread/`.
+
+## Configuring the Project
 
 1. **Copy the Google Sheets Document**:
-
-    Make a copy of the Google Sheets document available at the following URL and access it via your Google account:
-    [https://docs.google.com/spreadsheets/d/1j_CulCc3jxLVv-pTeYnyd35H6sFlLlAJa9wIrr5XHMs](https://docs.google.com/spreadsheets/d/1j_CulCc3jxLVv-pTeYnyd35H6sFlLlAJa9wIrr5XHMs)
+   
+   Make a copy of the Google Sheets document available at the following URL:
+   [https://docs.google.com/spreadsheets/d/1j_CulCc3jxLVv-pTeYnyd35H6sFlLlAJa9wIrr5XHMs](https://docs.google.com/spreadsheets/d/1j_CulCc3jxLVv-pTeYnyd35H6sFlLlAJa9wIrr5XHMs)
 
 2. **Update the Sheets URL Parameter**:
 
-    Open the `main.py` file and locate the `sheets_url` parameter. Update the value of `sheets_url` with the new Google Sheets document URL you copied in the previous step.
+   Open `main.py` and update the `sheets_url` parameter with the new Google Sheets document URL.
 
 ## Running the Project
 
 1. **Run the Python Script**:
+   
+   Run the main Python script:
 
-    In the activated virtual environment, run the main Python script using the following command:
+   ```bash
+   python main.py
+   ```
 
-    ```bash
-    python main.py
-    ```
-
-    This will execute the script and perform the desired actions using the Google Sheets API.
+   This will execute the script and interact with the Google Sheets API.
 
 ## Additional Notes
 
-- Ensure you have the necessary permissions and access to the Google Sheets document and the Google Sheets API for the desired operations to be successful.
-- For any issues or inquiries related to the project, feel free to reach out to the project maintainers or contributors.
+- Ensure you have the necessary permissions and access to the Google Sheets document and the Google Sheets API for the desired operations.
+- For any issues or inquiries, contact the project maintainers or contributors.
+
+---
+
+This should render properly on GitHub. Let me know if you need further assistance or adjustments.
