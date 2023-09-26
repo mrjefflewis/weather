@@ -1,13 +1,17 @@
 import gspread
 import requests
 from datetime import datetime
+import yaml
+import decimal
 
-sheets_url = 'https://docs.google.com/spreadsheets/d/1E1yfsNt8MQkf5U-otmnFLwD_LXU-rMNfqiiTUvdnsDY'
-read_sheets_range = "A1:B100"
+#set these global variables
+def read_config(config_filename):
+    with open(config_filename, 'r') as config_file:
+        config = yaml.safe_load(config_file)
+    return config
 
-weather_url = 'https://api.open-meteo.com/v1/forecast'
 
-def lookup_weather(lat, long):
+def lookup_weather(lat, long, weather_url):
     """
     Returns the weather at the given latitude and longitude.
 
@@ -46,7 +50,7 @@ def get_sheets_data(sheets_url, sheets_range):
 
     return values_list
 
-def lookup_values(values_list):
+def lookup_values(values_list, weather_url):
     """
     Returns a list of dictionaries containing the weather information for each location in the specified list.
 
@@ -60,11 +64,18 @@ def lookup_values(values_list):
     latcol, longcol = 0, 1
     row = 2
 
+    #print(values_list)
+
     while True:
+        if (len(values_list[row]) == 0 
+            or values_list[row][latcol].isdecimal() == False 
+            or values_list[row][longcol].isdecimal() == False):
+                break
         try:
             lat_value = values_list[row][latcol]
             long_value =values_list[row][longcol]
-            weather_data = lookup_weather(lat_value, long_value)
+            print(lat_value, long_value)
+            weather_data = lookup_weather(lat_value, long_value, weather_url)
             temperature = round(weather_data['current_weather']['temperature'])
             windspeed = weather_data['current_weather']['windspeed']
             time_str = weather_data['current_weather']['time']
@@ -72,13 +83,16 @@ def lookup_values(values_list):
         except IndexError:
             break
 
-        latlong_values.append({'lat': lat_value, 'long': long_value, 'temperature': f'{temperature} F', 'windspeed': f'{windspeed} mph', 'time': time})
+        latlong_values.append({'lat': lat_value
+                               , 'long': long_value
+                               , 'temperature': f'{temperature} F'
+                               , 'windspeed': f'{windspeed} mph'
+                               , 'time': time})
         row += 1
-        print(row)
     
     return latlong_values
 
-def write_values(values_list):
+def write_values(values_list, sheets_url):
     """
     Writes the weather information for each location to the specified Google Sheets document.
 
@@ -110,12 +124,22 @@ def main():
     """
     Retrieves the weather information for each location in the specified Google Sheets document and writes it to the document.
     """
-    values_list = lookup_values(get_sheets_data(sheets_url, read_sheets_range))
-    print(values_list)
 
-    write_values(values_list)
+    config = read_config(config_filename='config.yaml')
+
+    sheets_url = config['sheets_url']
+    read_sheets_range = config['read_sheets_range']
+    weather_url = config['weather_url']
+
+    read_rowset = get_sheets_data(sheets_url, read_sheets_range)
+    print(read_rowset)
+    values_list = lookup_values(read_rowset, weather_url)
+
+
+    write_values(values_list, sheets_url)
 
 
 #initialize the main function
 if __name__ == '__main__':
+
     main()
